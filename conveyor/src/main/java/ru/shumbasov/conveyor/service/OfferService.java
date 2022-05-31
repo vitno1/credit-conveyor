@@ -27,27 +27,28 @@ public class OfferService {
 
     private static long id = 1;
 
-    private void changeTotalAmount(){
+    private void assignTotalAmount(){
                 BigDecimal totalAmount;
         BigDecimal amount = loanApplicationRequestDTO.getAmount();
         BigDecimal percent = new BigDecimal("1.1");
         totalAmount = amount.multiply(percent);
     }
 
-    private LoanOfferDTO getLoanOfferDTOWithIdAndRequestAmount(){
+
+    private LoanOfferDTO getLoanOfferDTOWithIDRequestAmountTerm(){
         LoanOfferDTO loanOfferDTO = new LoanOfferDTO();
         loanOfferDTO.setApplicationId(id++);
         loanOfferDTO.setRequestedAmount(loanApplicationRequestDTO.getAmount());
-//        loanOfferDTO.setInsuranceEnabled(true);
-//        loanOfferDTO.setSalaryClient(true);
-
-
+        loanOfferDTO.setTerm(loanApplicationRequestDTO.getTerm());
         return loanOfferDTO;
     }
 
+
+
+
     public List<LoanOfferDTO> getOffers() {
         List<LoanOfferDTO> result = new ArrayList<>(4);
-        LoanOfferDTO loanOfferDTO = getLoanOfferDTOWithIdAndRequestAmount();
+        LoanOfferDTO loanOfferDTO = getLoanOfferDTOWithIDRequestAmountTerm();
 
 
         return null;

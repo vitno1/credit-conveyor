@@ -33,8 +33,8 @@ public class LoanApplicationRequestDTO {
     @Email
     private String email;
 
-    @Pattern(regexp = "\\d{4}.\\d{2}.\\d{2}", message = "please use pattern XXXX.XX.XX")
-    @DateTimeFormat(pattern = "yyyy.MM.dd")
+    @Pattern(regexp = "\\d{4}-\\d{2}-\\d{2}", message = "please use pattern XXXX.XX.XX")
+//    @DateTimeFormat(pattern = "yyyy.MM.dd")
     private LocalDate birthdate;
 
 
