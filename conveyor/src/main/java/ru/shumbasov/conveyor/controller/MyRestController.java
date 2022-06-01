@@ -28,13 +28,12 @@ public class MyRestController {
 
     @PostMapping("/offers")
     public List<LoanOfferDTO> offers(@RequestBody LoanApplicationRequestDTO loanApplicationRequestDTO) {
-        System.out.println();
         System.out.println(loanApplicationRequestDTO.getAmount());
         System.out.println(loanApplicationRequestDTO.getBirthdate());
         System.out.println(loanApplicationRequestDTO.getFirstName());
         offerService.setLoanApplicationRequestDTO(loanApplicationRequestDTO);
-        List<LoanOfferDTO> result = offerService.getOffers();
-        return result;
+        offerService.getOffers();
+        return null;
     }
 
     @PostMapping("/calculation")
