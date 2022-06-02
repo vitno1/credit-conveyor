@@ -7,6 +7,7 @@ import ru.shumbasov.conveyor.dto.LoanApplicationRequestDTO;
 import ru.shumbasov.conveyor.dto.LoanOfferDTO;
 
 import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -19,16 +20,13 @@ public class OfferService {
 
     private final BigDecimal rate;
 
-    public OfferService(@Value("${rate}") BigDecimal rate) {
-        this.rate = rate;
-    }
 
-
-    private LoanOfferDTO getLoanOfferDTOWithIDRequestAmountTerm() {
+    private LoanOfferDTO getLoanOfferDTOWithIDRequestAmountTermRate() {
         LoanOfferDTO loanOfferDTO = new LoanOfferDTO();
         loanOfferDTO.setApplicationId(id++);
         loanOfferDTO.setRequestedAmount(loanApplicationRequestDTO.getAmount());
         loanOfferDTO.setTerm(loanApplicationRequestDTO.getTerm());
+        loanOfferDTO.setRate(this.rate);
         System.out.println("1");
         return loanOfferDTO;
     }
@@ -44,44 +42,74 @@ public class OfferService {
     }
 
     private void assignRate(LoanOfferDTO loanOfferDTO) {
-        System.out.println("3");
-        System.out.println(this.rate);
+        if (loanOfferDTO.getInsuranceEnabled()) {
+            loanOfferDTO.setRate(new BigDecimal("1.1"));
+        }
+        if (loanOfferDTO.getSalaryClient()) {
+            loanOfferDTO.setRate(loanOfferDTO.getRate().subtract(new BigDecimal("0.05")));
+        }
+
+    }
+
+    private void assignMonthlyPayment(LoanOfferDTO loanOfferDTO) {
+        BigDecimal totalAmount = loanOfferDTO.getTotalAmount();
+        BigDecimal rate = loanOfferDTO.getRate();
+        Integer term = loanOfferDTO.getTerm();
+        BigDecimal clearPayment = totalAmount.divide(BigDecimal.valueOf(term), RoundingMode.HALF_UP);
+        BigDecimal monthlyPayment = totalAmount.multiply(rate).subtract(totalAmount).divide(new BigDecimal("12"), RoundingMode.HALF_UP).add(clearPayment);
+        loanOfferDTO.setMonthlyPayment(monthlyPayment);
     }
 
 
     public List<LoanOfferDTO> getOffers() {
         List<LoanOfferDTO> result = new ArrayList<>(4);
 
-        LoanOfferDTO loanOfferDTOTrueTrue = getLoanOfferDTOWithIDRequestAmountTerm();
+        LoanOfferDTO loanOfferDTOTrueTrue = getLoanOfferDTOWithIDRequestAmountTermRate();
         loanOfferDTOTrueTrue.setInsuranceEnabled(true);
         loanOfferDTOTrueTrue.setSalaryClient(true);
         assignTotalAmount(loanOfferDTOTrueTrue);
         assignRate(loanOfferDTOTrueTrue);
+        assignMonthlyPayment(loanOfferDTOTrueTrue);
 
         result.add(loanOfferDTOTrueTrue);
 
 
-        LoanOfferDTO loanOfferDTOFalseFalse = getLoanOfferDTOWithIDRequestAmountTerm();
+        LoanOfferDTO loanOfferDTOFalseFalse = getLoanOfferDTOWithIDRequestAmountTermRate();
         loanOfferDTOFalseFalse.setInsuranceEnabled(false);
         loanOfferDTOFalseFalse.setSalaryClient(false);
+        assignTotalAmount(loanOfferDTOFalseFalse);
+        assignRate(loanOfferDTOFalseFalse);
+        assignMonthlyPayment(loanOfferDTOFalseFalse);
+
         result.add(loanOfferDTOFalseFalse);
 
-        LoanOfferDTO loanOfferDTOTrueFalse = getLoanOfferDTOWithIDRequestAmountTerm();
+        LoanOfferDTO loanOfferDTOTrueFalse = getLoanOfferDTOWithIDRequestAmountTermRate();
         loanOfferDTOFalseFalse.setInsuranceEnabled(true);
         loanOfferDTOFalseFalse.setSalaryClient(false);
+        assignTotalAmount(loanOfferDTOTrueFalse);
+        assignRate(loanOfferDTOTrueFalse);
+        assignMonthlyPayment(loanOfferDTOTrueFalse);
+
         result.add(loanOfferDTOTrueFalse);
 
-        LoanOfferDTO loanOfferDTOFalseTrue = getLoanOfferDTOWithIDRequestAmountTerm();
+        LoanOfferDTO loanOfferDTOFalseTrue = getLoanOfferDTOWithIDRequestAmountTermRate();
         loanOfferDTOFalseTrue.setInsuranceEnabled(false);
         loanOfferDTOFalseTrue.setSalaryClient(true);
+        assignTotalAmount(loanOfferDTOFalseTrue);
+        assignRate(loanOfferDTOFalseTrue);
+        assignMonthlyPayment(loanOfferDTOFalseTrue);
         result.add(loanOfferDTOFalseTrue);
-
-
+        System.out.println("result size is " + result.size());
+        System.out.println(result);
         return result;
     }
 
 
     public void setLoanApplicationRequestDTO(LoanApplicationRequestDTO loanApplicationRequestDTO) {
         this.loanApplicationRequestDTO = loanApplicationRequestDTO;
+    }
+
+    public OfferService(@Value("${rate}") BigDecimal rate) {
+        this.rate = rate;
     }
 }
