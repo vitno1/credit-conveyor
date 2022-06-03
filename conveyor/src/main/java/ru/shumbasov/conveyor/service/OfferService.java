@@ -9,6 +9,7 @@ import ru.shumbasov.conveyor.dto.LoanOfferDTO;
 import java.math.BigDecimal;
 import java.math.RoundingMode;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 @Service
@@ -27,17 +28,15 @@ public class OfferService {
         loanOfferDTO.setRequestedAmount(loanApplicationRequestDTO.getAmount());
         loanOfferDTO.setTerm(loanApplicationRequestDTO.getTerm());
         loanOfferDTO.setRate(this.rate);
-        System.out.println("1");
+
         return loanOfferDTO;
     }
 
     private void assignTotalAmount(LoanOfferDTO loanOfferDTO) {
         if (loanOfferDTO.getInsuranceEnabled()) {
             loanOfferDTO.setTotalAmount(loanOfferDTO.getRequestedAmount().multiply(new BigDecimal("1.1")));
-            System.out.println("2");
         } else {
             loanOfferDTO.setTotalAmount(loanOfferDTO.getRequestedAmount());
-            System.out.println("2");
         }
     }
 
@@ -84,8 +83,8 @@ public class OfferService {
         result.add(loanOfferDTOFalseFalse);
 
         LoanOfferDTO loanOfferDTOTrueFalse = getLoanOfferDTOWithIDRequestAmountTermRate();
-        loanOfferDTOFalseFalse.setInsuranceEnabled(true);
-        loanOfferDTOFalseFalse.setSalaryClient(false);
+        loanOfferDTOTrueFalse.setInsuranceEnabled(true);
+        loanOfferDTOTrueFalse.setSalaryClient(false);
         assignTotalAmount(loanOfferDTOTrueFalse);
         assignRate(loanOfferDTOTrueFalse);
         assignMonthlyPayment(loanOfferDTOTrueFalse);
@@ -99,8 +98,6 @@ public class OfferService {
         assignRate(loanOfferDTOFalseTrue);
         assignMonthlyPayment(loanOfferDTOFalseTrue);
         result.add(loanOfferDTOFalseTrue);
-        System.out.println("result size is " + result.size());
-        System.out.println(result);
         return result;
     }
 

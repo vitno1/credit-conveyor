@@ -1,6 +1,5 @@
 package ru.shumbasov.conveyor.controller;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -10,7 +9,7 @@ import ru.shumbasov.conveyor.dto.LoanApplicationRequestDTO;
 import ru.shumbasov.conveyor.dto.LoanOfferDTO;
 import ru.shumbasov.conveyor.service.OfferService;
 
-import java.util.ArrayList;
+import javax.validation.Valid;
 import java.util.List;
 
 @RestController
@@ -25,15 +24,10 @@ public class MyRestController {
     }
 
 
-
     @PostMapping("/offers")
-    public List<LoanOfferDTO> offers(@RequestBody LoanApplicationRequestDTO loanApplicationRequestDTO) {
-        System.out.println(loanApplicationRequestDTO.getAmount());
-        System.out.println(loanApplicationRequestDTO.getBirthdate());
-        System.out.println(loanApplicationRequestDTO.getFirstName());
+    public List<LoanOfferDTO> offers(@Valid @RequestBody LoanApplicationRequestDTO loanApplicationRequestDTO) {
         offerService.setLoanApplicationRequestDTO(loanApplicationRequestDTO);
-        offerService.getOffers();
-        return null;
+        return offerService.getOffers();
     }
 
     @PostMapping("/calculation")

@@ -1,42 +1,40 @@
 package ru.shumbasov.conveyor.dto;
 
 
-import org.springframework.format.annotation.DateTimeFormat;
 import javax.validation.constraints.*;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;
 /*
- * заявка на получение кредита*/
-
+ * заявка на получение кредита
+ */
 
 public class LoanApplicationRequestDTO {
-
-
     @DecimalMin(value = "10000", message = "minimal value is 10000")
     @Digits(integer = Integer.MAX_VALUE, fraction = 0)
-    private BigDecimal amount; //сумма
+    private BigDecimal amount;
 
     @Min(value = 6, message = "minimal value is 6")
-    private Integer term; //срок
+    private Integer term;
 
     @Size(min = 2, max = 30, message = "the size of this field is between 2 and 30 characters")
     //Завалидировать все поля так чтобы только латинские символы
     private String firstName;
 
     @Size(min = 2, max = 30, message = "the size of this field is between 2 and 30 characters")
+    //Завалидировать все поля так чтобы только латинские символы
     private String lastName;
 
     @Size(min = 2, max = 30, message = "the size of this field is between 2 and 30 characters")
+    //Завалидировать все поля так чтобы только латинские символы
     private String middleName;
 
     @Email
     private String email;
 
-    @Pattern(regexp = "\\d{4}-\\d{2}-\\d{2}", message = "please use pattern XXXX.XX.XX")
-//    @DateTimeFormat(pattern = "yyyy.MM.dd")
+    //    @Pattern(regexp = "\\d{4}-\\d{2}-\\d{2}", message = "please use pattern XXXX-XX-XX")
+    //завалидировать так чтобы возраст от 18 лет
     private LocalDate birthdate;
-
 
     @Pattern(regexp = "\\d{4}", message = "please use pattern XXXX")
     private String passportSeries;
