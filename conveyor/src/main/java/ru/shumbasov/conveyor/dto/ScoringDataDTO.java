@@ -2,8 +2,7 @@ package ru.shumbasov.conveyor.dto;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;
-/*
- * данные о подсчете*/
+
 
 public class ScoringDataDTO {
 

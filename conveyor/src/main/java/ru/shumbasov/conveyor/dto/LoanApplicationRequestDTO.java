@@ -1,13 +1,13 @@
 package ru.shumbasov.conveyor.dto;
 
 
+import ru.shumbasov.conveyor.validation.CheckBirthdate;
+
 import javax.validation.constraints.*;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;
-/*
- * заявка на получение кредита
- */
+
 
 public class LoanApplicationRequestDTO {
     @DecimalMin(value = "10000", message = "minimal value is 10000")
@@ -18,22 +18,21 @@ public class LoanApplicationRequestDTO {
     private Integer term;
 
     @Size(min = 2, max = 30, message = "the size of this field is between 2 and 30 characters")
-    //Завалидировать все поля так чтобы только латинские символы
+    @Pattern(regexp = "^[a-zA-Z]+$", message = "Only latin characters")
     private String firstName;
 
     @Size(min = 2, max = 30, message = "the size of this field is between 2 and 30 characters")
-    //Завалидировать все поля так чтобы только латинские символы
+    @Pattern(regexp = "^[a-zA-Z]+$", message = "Only latin characters")
     private String lastName;
 
     @Size(min = 2, max = 30, message = "the size of this field is between 2 and 30 characters")
-    //Завалидировать все поля так чтобы только латинские символы
+    @Pattern(regexp = "^[a-zA-Z]+$", message = "Only latin characters")
     private String middleName;
 
     @Email
     private String email;
 
-    //    @Pattern(regexp = "\\d{4}-\\d{2}-\\d{2}", message = "please use pattern XXXX-XX-XX")
-    //завалидировать так чтобы возраст от 18 лет
+    @CheckBirthdate()
     private LocalDate birthdate;
 
     @Pattern(regexp = "\\d{4}", message = "please use pattern XXXX")

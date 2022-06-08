@@ -3,6 +3,7 @@ package ru.shumbasov.conveyor.service;
 
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
+import ru.shumbasov.conveyor.comparator.RateComparator;
 import ru.shumbasov.conveyor.dto.LoanApplicationRequestDTO;
 import ru.shumbasov.conveyor.dto.LoanOfferDTO;
 
@@ -20,7 +21,6 @@ public class OfferService {
     private static long id = 1;
 
     private final BigDecimal rate;
-
 
     private LoanOfferDTO getLoanOfferDTOWithIDRequestAmountTermRate() {
         LoanOfferDTO loanOfferDTO = new LoanOfferDTO();
@@ -98,6 +98,7 @@ public class OfferService {
         assignRate(loanOfferDTOFalseTrue);
         assignMonthlyPayment(loanOfferDTOFalseTrue);
         result.add(loanOfferDTOFalseTrue);
+        Collections.sort(result, new RateComparator());
         return result;
     }
 

@@ -2,8 +2,7 @@ package ru.shumbasov.conveyor.dto;
 
 import java.math.BigDecimal;
 
-/*
- * employment - трудоустройство ,работа,использование,применение,занятие,наем,служба */
+
 public class EmploymentDTO {
 
     private Enum employmentStatus;
