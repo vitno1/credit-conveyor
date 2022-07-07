@@ -8,7 +8,4 @@ public enum MaritalStatus {
     @JsonProperty("isNotMarried")
     IS_NOT_MARRIED;
 
-//    MaritalStatus(String is_not_married) {
-//
-//    }
 }

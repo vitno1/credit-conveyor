@@ -36,6 +36,6 @@ public class MyRestController {
     public ResponseEntity<CreditDTO> calculation(@Valid @RequestBody ScoringDataDTO scoringDataDTO) {
         calculationService.setScoringDataDTO(scoringDataDTO);
         calculationService.checkScoring();
-        return new ResponseEntity<>(calculationService.assignCreditDTO(), HttpStatus.OK);
+        return new ResponseEntity<>(calculationService.getCreditDTO(), HttpStatus.OK);
     }
 }

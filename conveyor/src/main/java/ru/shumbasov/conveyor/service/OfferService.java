@@ -1,6 +1,7 @@
 package ru.shumbasov.conveyor.service;
 
 
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import ru.shumbasov.conveyor.comparator.RateComparator;
@@ -14,6 +15,7 @@ import java.util.Collections;
 import java.util.List;
 
 @Service
+@Slf4j
 public class OfferService {
 
     private LoanApplicationRequestDTO loanApplicationRequestDTO;
@@ -22,17 +24,24 @@ public class OfferService {
 
     private final BigDecimal rate;
 
-    private LoanOfferDTO getLoanOfferDTOWithIDRequestAmountTermRate() {
+    private LoanOfferDTO getLoanOfferDTO(Boolean isInsuranceEnabled, Boolean isSalaryClient) {
+        log.info("Start creating LoanOfferDTO");
         LoanOfferDTO loanOfferDTO = new LoanOfferDTO();
         loanOfferDTO.setApplicationId(id++);
         loanOfferDTO.setRequestedAmount(loanApplicationRequestDTO.getAmount());
         loanOfferDTO.setTerm(loanApplicationRequestDTO.getTerm());
         loanOfferDTO.setRate(this.rate);
+        loanOfferDTO.setInsuranceEnabled(isInsuranceEnabled);
+        loanOfferDTO.setSalaryClient(isSalaryClient);
+        assignTotalAmount(loanOfferDTO);
+        assignRate(loanOfferDTO);
+        assignMonthlyPayment(loanOfferDTO);
 
         return loanOfferDTO;
     }
 
     private void assignTotalAmount(LoanOfferDTO loanOfferDTO) {
+        log.info("Set TotalAmount");
         if (loanOfferDTO.getInsuranceEnabled()) {
             loanOfferDTO.setTotalAmount(loanOfferDTO.getRequestedAmount().multiply(new BigDecimal("1.1")));
         } else {
@@ -41,6 +50,7 @@ public class OfferService {
     }
 
     private void assignRate(LoanOfferDTO loanOfferDTO) {
+        log.info("Set Rate");
         if (loanOfferDTO.getInsuranceEnabled()) {
             loanOfferDTO.setRate(new BigDecimal("1.1"));
         }
@@ -51,6 +61,7 @@ public class OfferService {
     }
 
     private void assignMonthlyPayment(LoanOfferDTO loanOfferDTO) {
+        log.info("Calculate MonthlyPayment");
         BigDecimal totalAmount = loanOfferDTO.getTotalAmount();
         BigDecimal rate = loanOfferDTO.getRate();
         Integer term = loanOfferDTO.getTerm();
@@ -61,47 +72,14 @@ public class OfferService {
 
 
     public List<LoanOfferDTO> getOffers() {
-        List<LoanOfferDTO> result = new ArrayList<>(4);
-
-        LoanOfferDTO loanOfferDTOTrueTrue = getLoanOfferDTOWithIDRequestAmountTermRate();
-        loanOfferDTOTrueTrue.setInsuranceEnabled(true);
-        loanOfferDTOTrueTrue.setSalaryClient(true);
-        assignTotalAmount(loanOfferDTOTrueTrue);
-        assignRate(loanOfferDTOTrueTrue);
-        assignMonthlyPayment(loanOfferDTOTrueTrue);
-
-        result.add(loanOfferDTOTrueTrue);
-
-
-        LoanOfferDTO loanOfferDTOFalseFalse = getLoanOfferDTOWithIDRequestAmountTermRate();
-        loanOfferDTOFalseFalse.setInsuranceEnabled(false);
-        loanOfferDTOFalseFalse.setSalaryClient(false);
-        assignTotalAmount(loanOfferDTOFalseFalse);
-        assignRate(loanOfferDTOFalseFalse);
-        assignMonthlyPayment(loanOfferDTOFalseFalse);
-
-        result.add(loanOfferDTOFalseFalse);
-
-        LoanOfferDTO loanOfferDTOTrueFalse = getLoanOfferDTOWithIDRequestAmountTermRate();
-        loanOfferDTOTrueFalse.setInsuranceEnabled(true);
-        loanOfferDTOTrueFalse.setSalaryClient(false);
-        assignTotalAmount(loanOfferDTOTrueFalse);
-        assignRate(loanOfferDTOTrueFalse);
-        assignMonthlyPayment(loanOfferDTOTrueFalse);
-
-        result.add(loanOfferDTOTrueFalse);
-
-        LoanOfferDTO loanOfferDTOFalseTrue = getLoanOfferDTOWithIDRequestAmountTermRate();
-        loanOfferDTOFalseTrue.setInsuranceEnabled(false);
-        loanOfferDTOFalseTrue.setSalaryClient(true);
-        assignTotalAmount(loanOfferDTOFalseTrue);
-        assignRate(loanOfferDTOFalseTrue);
-        assignMonthlyPayment(loanOfferDTOFalseTrue);
-        result.add(loanOfferDTOFalseTrue);
+        List<LoanOfferDTO> loanOfferDTO = List.of(getLoanOfferDTO(true, true),
+                getLoanOfferDTO(false, false),
+                getLoanOfferDTO(true, false),
+                getLoanOfferDTO(false, true));
+        ArrayList<LoanOfferDTO> result = new ArrayList<>(loanOfferDTO);
         Collections.sort(result, new RateComparator());
         return result;
     }
-
 
     public void setLoanApplicationRequestDTO(LoanApplicationRequestDTO loanApplicationRequestDTO) {
         this.loanApplicationRequestDTO = loanApplicationRequestDTO;
