@@ -2,18 +2,16 @@ package ru.shumbasov.conveyor.dto;
 
 import java.math.BigDecimal;
 
-/*
- * предложение кредита*/
 public class LoanOfferDTO {
 
-    private Long applicationId; //id кредита
-    private BigDecimal requestedAmount; //запрашиваемая сумма
-    private BigDecimal totalAmount; // общая сумма
-    private Integer term; //срок
-    private BigDecimal monthlyPayment; //ежемесячный платеж
-    private BigDecimal rate; //ставка
-    private Boolean isInsuranceEnabled; //включена ли страховка
-    private Boolean isSalaryClient; //зп клиента норм?
+    private Long applicationId;
+    private BigDecimal requestedAmount;
+    private BigDecimal totalAmount;
+    private Integer term;
+    private BigDecimal monthlyPayment;
+    private BigDecimal rate;
+    private Boolean isInsuranceEnabled;
+    private Boolean isSalaryClient;
 
     public LoanOfferDTO() {
     }
@@ -48,6 +46,20 @@ public class LoanOfferDTO {
 
     public void setTerm(Integer term) {
         this.term = term;
+    }
+
+    @Override
+    public String toString() {
+        return "LoanOfferDTO{" +
+                "applicationId=" + applicationId +
+                ", requestedAmount=" + requestedAmount +
+                ", totalAmount=" + totalAmount +
+                ", term=" + term +
+                ", monthlyPayment=" + monthlyPayment +
+                ", rate=" + rate +
+                ", isInsuranceEnabled=" + isInsuranceEnabled +
+                ", isSalaryClient=" + isSalaryClient +
+                '}';
     }
 
     public BigDecimal getMonthlyPayment() {
