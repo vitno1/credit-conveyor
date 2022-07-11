@@ -1,13 +1,11 @@
 package ru.shumbasov.conveyor.service;
 
-
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import ru.shumbasov.conveyor.comparator.RateComparator;
 import ru.shumbasov.conveyor.dto.LoanApplicationRequestDTO;
 import ru.shumbasov.conveyor.dto.LoanOfferDTO;
-
 import java.math.BigDecimal;
 import java.math.RoundingMode;
 import java.util.ArrayList;
@@ -57,7 +55,6 @@ public class OfferService {
         if (loanOfferDTO.getSalaryClient()) {
             loanOfferDTO.setRate(loanOfferDTO.getRate().subtract(new BigDecimal("0.05")));
         }
-
     }
 
     private void assignMonthlyPayment(LoanOfferDTO loanOfferDTO) {

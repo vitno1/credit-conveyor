@@ -14,8 +14,5 @@ public class ScoringAdvice {
     public ResponseEntity<String> handlerScoringException(ScoringException scoringException) {
         String message = scoringException.getMessage();
         return new ResponseEntity<String>(scoringException.getError(), HttpStatus.BAD_REQUEST);
-
     }
-
-
 }

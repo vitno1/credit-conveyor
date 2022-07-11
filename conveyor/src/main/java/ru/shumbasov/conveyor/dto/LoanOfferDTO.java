@@ -2,9 +2,6 @@ package ru.shumbasov.conveyor.dto;
 
 import java.math.BigDecimal;
 
-/*
- * предложение кредита
- */
 public class LoanOfferDTO {
 
     private Long applicationId;

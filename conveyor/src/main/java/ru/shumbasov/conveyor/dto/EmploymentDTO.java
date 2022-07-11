@@ -9,7 +9,6 @@ import java.math.BigDecimal;
 
 public class EmploymentDTO {
 
-
     @NotNull
     private EmploymentStatus employmentStatus;
 
@@ -83,4 +82,5 @@ public class EmploymentDTO {
 
     public EmploymentDTO() {
     }
+
 }

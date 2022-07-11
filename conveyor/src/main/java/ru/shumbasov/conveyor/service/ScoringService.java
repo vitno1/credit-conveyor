@@ -7,7 +7,6 @@ import ru.shumbasov.conveyor.enums.Gender;
 import ru.shumbasov.conveyor.enums.MaritalStatus;
 import ru.shumbasov.conveyor.enums.Position;
 import ru.shumbasov.conveyor.exception.ScoringException;
-
 import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.time.ZoneId;

@@ -1,7 +1,6 @@
 package ru.shumbasov.conveyor.comparator;
 
 import ru.shumbasov.conveyor.dto.LoanOfferDTO;
-
 import java.util.Comparator;
 
 public class RateComparator implements Comparator<LoanOfferDTO> {

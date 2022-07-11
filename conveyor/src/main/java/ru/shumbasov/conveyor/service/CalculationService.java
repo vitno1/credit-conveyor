@@ -5,7 +5,6 @@ import org.springframework.stereotype.Service;
 import ru.shumbasov.conveyor.dto.CreditDTO;
 import ru.shumbasov.conveyor.dto.PaymentScheduleElement;
 import ru.shumbasov.conveyor.dto.ScoringDataDTO;
-
 import java.math.BigDecimal;
 import java.math.MathContext;
 import java.math.RoundingMode;
@@ -41,7 +40,7 @@ public class CalculationService {
 
     private void calculateMonthlyPayment(CreditDTO creditDTO) {
         log.info("Start calculating MonthlyPayment");
-        BigDecimal monthlyPercentRate = creditDTO.getRate().subtract(new BigDecimal("1")).divide(new BigDecimal("12"), MathContext.UNLIMITED);
+        BigDecimal monthlyPercentRate = creditDTO.getRate().subtract(new BigDecimal("1")).divide(new BigDecimal("12"),  8 ,RoundingMode.HALF_EVEN);
         BigDecimal monthlyPercentRatePlusOne = monthlyPercentRate.add(new BigDecimal("1")).pow(creditDTO.getTerm());
         BigDecimal left = monthlyPercentRate.multiply(monthlyPercentRatePlusOne);
         BigDecimal right = monthlyPercentRatePlusOne.subtract(new BigDecimal("1"));
@@ -91,10 +90,6 @@ public class CalculationService {
         }
         dates.add(0, LocalDate.now());
         payments.add(0, creditDTO.getAmount().negate());
-        System.out.println(dates);
-        System.out.println(payments);
-        System.out.println(dates.size() + "   " + payments.size());
-
         List<BigDecimal> differenceDayStartLoanAndDayPayment = new ArrayList<>();
         for (int i = 0; i < dates.size(); i++) {
             long difference = Duration.between(dates.get(0).atStartOfDay(), dates.get(i).atStartOfDay()).toDays();
@@ -102,7 +97,6 @@ public class CalculationService {
         }
         List<BigDecimal> eList = new ArrayList<>();
         List<BigDecimal> qList = new ArrayList<>();
-        System.out.println("differenceDayStartLoanAndDayPayment.size() = " + differenceDayStartLoanAndDayPayment.size());
 
         for (int i = 0; i < differenceDayStartLoanAndDayPayment.size(); i++) {
             eList.add(differenceDayStartLoanAndDayPayment.get(i).remainder(new BigDecimal(30)).divide(new BigDecimal(30), 3, RoundingMode.HALF_UP));

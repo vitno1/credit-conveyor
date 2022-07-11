@@ -9,7 +9,6 @@ import ru.shumbasov.conveyor.dto.LoanOfferDTO;
 import ru.shumbasov.conveyor.dto.ScoringDataDTO;
 import ru.shumbasov.conveyor.service.CalculationService;
 import ru.shumbasov.conveyor.service.OfferService;
-
 import javax.validation.Valid;
 import java.util.List;
 
@@ -25,17 +24,16 @@ public class MyRestController {
         this.calculationService = calculationService;
     }
 
-
     @PostMapping("/offers")
     public ResponseEntity<List<LoanOfferDTO>> offers(@Valid @RequestBody LoanApplicationRequestDTO loanApplicationRequestDTO) {
         offerService.setLoanApplicationRequestDTO(loanApplicationRequestDTO);
-        return new ResponseEntity<>(offerService.getOffers(), HttpStatus.OK);
+        return ResponseEntity.ok(offerService.getOffers());
     }
 
     @PostMapping("/calculation")
     public ResponseEntity<CreditDTO> calculation(@Valid @RequestBody ScoringDataDTO scoringDataDTO) {
         calculationService.setScoringDataDTO(scoringDataDTO);
         calculationService.checkScoring();
-        return new ResponseEntity<>(calculationService.getCreditDTO(), HttpStatus.OK);
+        return ResponseEntity.ok(calculationService.getCreditDTO());
     }
 }
