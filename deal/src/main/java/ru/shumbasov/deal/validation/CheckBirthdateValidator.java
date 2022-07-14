@@ -1,4 +1,4 @@
-package ru.shumbasov.conveyor.validation;
+package ru.shumbasov.deal.validation;
 
 import javax.validation.ConstraintValidator;
 import javax.validation.ConstraintValidatorContext;
