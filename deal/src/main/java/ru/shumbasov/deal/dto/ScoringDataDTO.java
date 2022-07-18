@@ -1,9 +1,11 @@
-package ru.shumbasov.conveyor.dto;
+package ru.shumbasov.deal.dto;
 
-import com.fasterxml.jackson.annotation.JsonProperty;
-import ru.shumbasov.conveyor.enums.Gender;
-import ru.shumbasov.conveyor.enums.MaritalStatus;
-import ru.shumbasov.conveyor.validation.CheckBirthdate;
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+import ru.shumbasov.deal.enums.Gender;
+import ru.shumbasov.deal.enums.MaritalStatus;
+import ru.shumbasov.deal.validation.CheckBirthdate;
 
 import javax.validation.constraints.*;
 import java.math.BigDecimal;
@@ -11,8 +13,8 @@ import java.time.LocalDate;
 
 
 public class ScoringDataDTO {
-
     @DecimalMin(value = "10000", message = "minimal value is 10000")
+    @Digits(integer = Integer.MAX_VALUE, fraction = 0)
     private BigDecimal amount;
 
     @Min(value = 6, message = "minimal value is 6")
@@ -58,7 +60,6 @@ public class ScoringDataDTO {
     private Boolean isInsuranceEnabled;
 
     private Boolean isSalaryClient;
-
     public ScoringDataDTO() {
     }
 
@@ -223,5 +224,28 @@ public class ScoringDataDTO {
 
     public void setMaritalStatus(MaritalStatus maritalStatus) {
         this.maritalStatus = maritalStatus;
+    }
+
+    @Override
+    public String toString() {
+        return "ScoringDataDTO{" +
+                "amount=" + amount +
+                ", term=" + term +
+                ", firstName='" + firstName + '\'' +
+                ", lastName='" + lastName + '\'' +
+                ", middleName='" + middleName + '\'' +
+                ", gender=" + gender +
+                ", birthdate=" + birthdate +
+                ", passportSeries='" + passportSeries + '\'' +
+                ", passportNumber='" + passportNumber + '\'' +
+                ", passportIssueDate=" + passportIssueDate +
+                ", passportIssueBranch='" + passportIssueBranch + '\'' +
+                ", maritalStatus=" + maritalStatus +
+                ", dependentAmount=" + dependentAmount +
+                ", employment=" + employment +
+                ", account='" + account + '\'' +
+                ", isInsuranceEnabled=" + isInsuranceEnabled +
+                ", isSalaryClient=" + isSalaryClient +
+                '}';
     }
 }
