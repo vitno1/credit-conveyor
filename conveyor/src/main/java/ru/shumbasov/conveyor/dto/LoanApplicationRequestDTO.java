@@ -11,7 +11,6 @@ import java.time.LocalDate;
 
 public class LoanApplicationRequestDTO {
     @DecimalMin(value = "10000", message = "minimal value is 10000")
-    @Digits(integer = Integer.MAX_VALUE, fraction = 0)
     private BigDecimal amount;
 
     @Min(value = 6, message = "minimal value is 6")

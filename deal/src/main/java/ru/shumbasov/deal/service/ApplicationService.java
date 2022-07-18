@@ -41,7 +41,7 @@ public class ApplicationService {
                 loanOfferDTO.setApplicationId(application.getId());
             }
             return offersList;
-        } catch (URISyntaxException e) {
+        } catch (URISyntaxException  | NullPointerException e) {
             log.error(e.getMessage());
         }
         return null;

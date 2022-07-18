@@ -1,5 +1,6 @@
 package ru.shumbasov.deal.service;
 
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import ru.shumbasov.deal.dto.LoanApplicationRequestDTO;
 import ru.shumbasov.deal.entity.Client;
@@ -7,6 +8,7 @@ import ru.shumbasov.deal.entity.Passport;
 import ru.shumbasov.deal.repository.ClientRepository;
 
 @Service
+@Slf4j
 public class ClientEntityService {
     private final ClientRepository clientRepository;
 
@@ -21,6 +23,7 @@ public class ClientEntityService {
         passport.setSeries(loanApplicationRequestDTO.getPassportSeries());
         passport.setNumber(loanApplicationRequestDTO.getPassportNumber());
         client.setPassport(passport);
+        log.info("Создали сущность Client , заинсертили поля из LoanApplicationRequestDTO(7шт)");
         return clientRepository.save(client);
     }
 

@@ -46,10 +46,11 @@ public class RestTemplateService {
                 requestEntity,
                 new ParameterizedTypeReference<List<LoanOfferDTO>>() {
                 });
+        log.info("Получились List<LoanOfferDTO> из conveyor/offers");
         return responseEntity.getBody();
     }
 
-    public CreditDTO getCreditFromConveyorCalculation(ScoringDataDTO scoringDataDTO) {
+    public CreditDTO getCreditFromConveyorCalculation(ScoringDataDTO scoringDataDTO) throws URISyntaxException {
         RequestEntity<ScoringDataDTO> requestEntity = RequestEntity.post(new URI(conveyorCalculationUrl)).
                 accept(MediaType.APPLICATION_JSON).
                 contentType(MediaType.APPLICATION_JSON).
@@ -59,6 +60,7 @@ public class RestTemplateService {
                 HttpMethod.POST,
                 requestEntity,
                 CreditDTO.class);
+        log.info("Получили CreditDTO из conveyor/calculation");
         return responseEntity.getBody();
 
     }

@@ -23,7 +23,6 @@ public class DealRestController {
     public ResponseEntity<List<LoanOfferDTO>> getAllOffers(@Valid @RequestBody LoanApplicationRequestDTO loanApplicationRequestDTO) {
         applicationService.setLoanApplicationRequestDTO(loanApplicationRequestDTO);
         return ResponseEntity.ok(applicationService.getOffers());
-
     }
 
     @PutMapping("/offer")
@@ -37,8 +36,6 @@ public class DealRestController {
                             @PathVariable("applicationId") Long applicationId) {
         calculationService.setFinishRegistrationRequestDTO(finishRegistrationRequestDTO);
         calculationService.calculateAndFinishRegistration(applicationId);
-
-
     }
 
     public DealRestController(ApplicationService applicationService, OfferService offerService, CalculationService calculationService) {

@@ -12,18 +12,15 @@ import ru.shumbasov.deal.enums.ApplicationStatus;
 public class OfferService {
     private LoanOfferDTO loanOfferDTO;
     private final ApplicationEntityService applicationEntityService;
-    private final ApplicationStatusEntityService applicationStatusEntityService;
 
-    public OfferService(ApplicationEntityService applicationEntityService,
-                        ApplicationStatusEntityService applicationStatusEntityService) {
+    public OfferService(ApplicationEntityService applicationEntityService) {
         this.applicationEntityService = applicationEntityService;
-        this.applicationStatusEntityService = applicationStatusEntityService;
     }
 
     public void saveOffer() {
         Application application = applicationEntityService.findById(loanOfferDTO.getApplicationId());
         applicationEntityService.setStatus(application, ApplicationStatus.APPROVED);
-        applicationEntityService.setAppliedOffer(application ,loanOfferDTO);
+        applicationEntityService.setAppliedOffer(application, loanOfferDTO);
     }
 
     public void setLoanOfferDTO(LoanOfferDTO loanOfferDTO) {
