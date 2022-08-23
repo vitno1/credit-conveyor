@@ -1,9 +1,9 @@
-package ru.shumbasov.deal.dto;
+package ru.shum.application.dto;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import ru.shumbasov.deal.validation.CheckBirthdate;
+import ru.shum.application.validation.CheckBirthdate;
 
 import javax.validation.constraints.*;
 import java.math.BigDecimal;
@@ -14,6 +14,7 @@ import java.time.LocalDate;
 @AllArgsConstructor
 public class LoanApplicationRequestDTO {
     @DecimalMin(value = "10000", message = "minimal value is 10000")
+    @Digits(integer = Integer.MAX_VALUE, fraction = 0)
     private BigDecimal amount;
 
     @Min(value = 6, message = "minimal value is 6")
