@@ -54,7 +54,7 @@ public class CreditDTO {
         this.psk = psk;
     }
 
-    public Boolean getInsuranceEnabled() {
+    public Boolean getIsInsuranceEnabled() {
         return isInsuranceEnabled;
     }
 
@@ -62,7 +62,7 @@ public class CreditDTO {
         isInsuranceEnabled = insuranceEnabled;
     }
 
-    public Boolean getSalaryClient() {
+    public Boolean getIsSalaryClient() {
         return isSalaryClient;
     }
 
